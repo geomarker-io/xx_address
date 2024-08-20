@@ -61,7 +61,9 @@ d_counts_by_street_range <-
     group_by(tlid, geometry) |>
     summarize(n_gunshots = sum(n)) |>
     relocate(geometry, .after = last_col()) |>
-    st_as_sf()
+    st_as_sf() |>
+    mutate(s2 = st_as_s2(geometry)) |>
+    st_drop_geometry()
 
 d_dpkg <-
   d_counts_by_street_range |>
