@@ -59,7 +59,7 @@ d_counts_by_street_range <-
     ungroup() |>
     left_join(d_street_ranges_sf, by = c("address_x", "tlid")) |>
     group_by(tlid, geometry) |>
-    summarize(n_gunshots = sum(n)) |>
+    summarize(gunshots = sum(n)) |>
     relocate(geometry, .after = last_col()) |>
     st_as_sf() |>
     mutate(s2 = st_as_s2(geometry)) |>

@@ -13,3 +13,7 @@ The `address_x` provided by the city is converted to possible street range lines
 Below is a map of the total number of crime incidents and shotspotter reports for each street range approximation.
 
 ![crime_incident_map](https://user-images.githubusercontent.com/104022087/214891725-38ae46aa-3872-485a-bc3f-d6d916d19ad9.svg)
+
+### References
+
+Helderop E, Nelson JR, Grubesic TH. ‘Unmasking’ masked address data: A medoid geocoding solution. MethodsX. 2023;10:102090. doi:10.1016/j.mex.2023.102090
