@@ -50,33 +50,21 @@ d_street_ranges_sf <-
             geometry = st_union(geometry)) |>
   st_as_sf()
 
-d <- left_join(d, 
-  d_street_ranges_sf |> select(address_x, tlid) |> st_drop_geometry(), 
-  by = "address_x")
-
-d_counts_by_street_range <- 
-  d |>
-  filter(!is.na(tlid)) |>
-  group_by(address_x, tlid, category) |>
-  tally() |>
-  pivot_wider(names_from = category, 
-              values_from = n) |>
-  ungroup() |>
-  left_join(d_street_ranges_sf, by = c("address_x", "tlid")) |>
-  group_by(tlid, geometry) |>
-  summarize(across(property:other, sum)) |>
-  relocate(geometry, .after = last_col()) |>
-  st_as_sf()
+d <- left_join(
+  d, 
+  d_street_ranges_sf |> select(address_x, tlid), 
+  by = "address_x"
+) |>
+  filter(!is.na(tlid))
 
 d_dpkg <-
-  d_counts_by_street_range |>
+  d |>
   dpkg::as_dpkg(
     name = "crime_incidents",
     title = "Crime Incidents",
-    version = "0.1.0",
+    version = "0.1.1",
     homepage = "https://github.com/geomarker-io/xx_address",
     description = paste(readLines(fs::path("crime_incidents", "README", ext = "md")), collapse = "\n")
   )
 
 dpkg::dpkg_gh_release(d_dpkg, draft = FALSE)
-

@@ -48,27 +48,16 @@ d_street_ranges_sf <-
   st_as_sf()
 
 d <- left_join(d, 
-  d_street_ranges_sf |> select(address_x, tlid) |> st_drop_geometry(), 
-  by = "address_x")
-
-d_counts_by_street_range <- 
-    d |>
-    filter(!is.na(tlid)) |>
-    group_by(address_x, tlid) |>
-    tally() |>
-    ungroup() |>
-    left_join(d_street_ranges_sf, by = c("address_x", "tlid")) |>
-    group_by(tlid, geometry) |>
-    summarize(gunshots = sum(n)) |>
-    relocate(geometry, .after = last_col()) |>
-    st_as_sf()
+  d_street_ranges_sf |> select(address_x, tlid), 
+  by = "address_x") |>
+  filter(!is.na(tlid))
 
 d_dpkg <-
-  d_counts_by_street_range |>
+  d |>
   dpkg::as_dpkg(
     name = "shotspotter",
     title = "Shotspotter",
-    version = "0.1.0",
+    version = "0.1.1",
     homepage = "https://github.com/geomarker-io/xx_address",
     description = paste(readLines(fs::path("shotspotter", "README", ext = "md")), collapse = "\n")
   )

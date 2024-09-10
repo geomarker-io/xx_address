@@ -1,3 +1,3 @@
 # Shotspotter
 
-The `shotspotter` data package includes the number and street range locations of gunshots detected by the shotspotter system between August 18, 2017 and January 3, 2023. Shotspotter reports are filtered from all [police calls for service](https://data.cincinnati-oh.gov/safety/PDI-Police-Data-Initiative-Police-Calls-for-Servic/gexm-h6bt) that resulted in a police response and had a known location and date.
+The `shotspotter` data package includes the date and street range locations of gunshots detected by the shotspotter system between August 18, 2017 and January 3, 2023. Shotspotter reports are filtered from all [police calls for service](https://data.cincinnati-oh.gov/safety/PDI-Police-Data-Initiative-Police-Calls-for-Servic/gexm-h6bt) that resulted in a police response and had a known location and date.
