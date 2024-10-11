@@ -22,20 +22,38 @@ out <-
   ) |>
   mutate(
     date = as.Date(date, format = "%Y%M%d"),
-    xx_address = stringr::str_replace(streetblock, " Block of", ""), 
-    xx_address = stringr::str_replace(xx_address, "00", "50")
+    streetblock_spl = purrr::map(streetblock, \(x) stringr::str_split_1(x, " Block of ")),
+    streetblock_num = purrr::map_dbl(streetblock_spl, \(x) as.numeric(x[1]) + 50),
+    xx_address = purrr::map2_chr(streetblock_num, streetblock_spl, \(x, y) glue::glue("{x} {y[2]}"))
   ) |>
-  select(-streetblock)
+  select(streetblock, xx_address, lat_jittered:type)
 
 d <- 
   out |>
   mutate(
     addr = addr::addr(xx_address),
     tiger_street = addr::addr_match_tiger_street_ranges(
-      x = d$addr, 
+      x = addr, 
+      street_only_match = "closest",
       summarize = "union")
   ) |>
   tidyr::unnest(cols = c(tiger_street), keep_empty = TRUE) 
+
+d |>
+  group_by(is.na(TLID)) |>
+  tally() |>
+  mutate(pct = n/sum(n))
+
+d |>
+  filter(is.na(TLID))
+
+
+d_sf <- d |>
+  filter(!is.na(TLID)) |>
+  mutate(geometry = sf::st_as_sfc(s2_geography), 
+    length = sf::st_length(geometry))
+
+mapview::mapview(sf::st_as_sf(d_sf), zcol = "length")
 
 d_dpkg <-
   d |>
