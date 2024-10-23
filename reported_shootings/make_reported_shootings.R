@@ -31,6 +31,7 @@ out <-
 d <- 
   out |>
   mutate(
+    xx_address = glue::glue("{xx_address} Anytown XX 00000"),
     addr = addr::addr(xx_address),
     tiger_street = addr::addr_match_tiger_street_ranges(
       x = addr, 
@@ -43,17 +44,6 @@ d |>
   group_by(is.na(TLID)) |>
   tally() |>
   mutate(pct = n/sum(n))
-
-d |>
-  filter(is.na(TLID))
-
-
-d_sf <- d |>
-  filter(!is.na(TLID)) |>
-  mutate(geometry = sf::st_as_sfc(s2_geography), 
-    length = sf::st_length(geometry))
-
-mapview::mapview(sf::st_as_sf(d_sf), zcol = "length")
 
 d_dpkg <-
   d |>
