@@ -40,11 +40,6 @@ d <-
   ) |>
   tidyr::unnest(cols = c(tiger_street), keep_empty = TRUE) 
 
-d |>
-  group_by(is.na(TLID)) |>
-  tally() |>
-  mutate(pct = n/sum(n))
-
 d_dpkg <-
   d |>
   dpkg::as_dpkg(
