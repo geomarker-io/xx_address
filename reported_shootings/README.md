@@ -9,6 +9,7 @@ The `reported shootings` data package includes the date and street range locatio
 Shootings events records include the `streetblock` where the incident occurred (e.g., "1700 Block of RACE ST"). The `streetblock` is transformed to an address to represent the middle of that block (e.g., "1750 RACE ST") and geocoded to a TIGER street range using [`addr`](https://github.com/cole-brokamp/addr).
 
 Shooting events are recorded at the victim level and contain information on:
+* `streetblock`: text field describing the block where the incident occurred 
 * location (`lat_jittered` and `lon_jittered`): randomly skewed coordinates (represent the same block area, but not the exact location, of the incident)
 * `date`: the date the event occurred
 * `race`: the race of the victim
