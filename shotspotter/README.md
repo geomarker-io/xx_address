@@ -12,5 +12,5 @@ Crime incident information includes:
 * `lon_jittered` and `lat_jittered`: randomly skewed coordinates (represent the same block area, but not the exact location, of the shot)
 * `xx_address`: `address_x` with estimated middle of the street block
 * `addr`: the `addr` object for `xx_address`
-* `s2_geography`: the s2 geography for the geocoded TIGER street range
+* `geometry`: the sfc geometry for the geocoded TIGER street range
 * `from` and `to`: the minimum and maximum building numbers for the geocoded street range

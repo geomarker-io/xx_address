@@ -60,6 +60,9 @@ d <-
 
 d_dpkg <-
   d |>
+  filter(!is.na(s2_geography)) |>
+  mutate(geometry = sf::st_as_sfc(s2_geography)) |>
+  select(-s2_geography) |>
   dpkg::as_dpkg(
     name = "shotspotter",
     title = "Shotspotter",

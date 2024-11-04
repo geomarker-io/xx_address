@@ -18,7 +18,7 @@ Shooting events are recorded at the victim level and contain information on:
 * `type`: `FATAL` or `NONFATAL`
 * `xx_address`: the address corresponding to the middle of the block where the incident occurred
 * `addr`: the `addr` object for `xx_address`
-* `s2_geography`: the s2 geography for the geocoded TIGER street range
+* `geometry`: the sfc geometry for the geocoded TIGER street range
 * `from` and `to`: the minimum and maximum building numbers for the geocoded street range
 
 
