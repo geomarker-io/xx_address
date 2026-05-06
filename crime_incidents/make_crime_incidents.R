@@ -93,6 +93,7 @@ d <- left_join(d, d_matched_range, by = c("date_time", "address_x"))
 d_dpkg <-
   d |>
   rename(geometry = s2_geography) |>
+  select(-addr) |>
   dpkg::as_dpkg(
     name = "crime_incidents",
     title = "Crime Incidents",
@@ -104,4 +105,5 @@ d_dpkg <-
     )
   )
 
+dpkg::write_dpkg(d_dpkg, dir = getwd())
 dpkg::dpkg_gh_release(d_dpkg, draft = FALSE)
