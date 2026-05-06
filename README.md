@@ -4,7 +4,6 @@ This repository contains these data packages (and source code used to create the
 
 <!-- badges: start -->
 [![latest github release for crime_incidents dpkg](https://img.shields.io/github/v/release/geomarker-io/xx_address?sort=date&filter=crime_incidents-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/xx_address/releases?q=crime_incidents&expanded=false)
-[![latest github release for shotspotter dpkg](https://img.shields.io/github/v/release/geomarker-io/xx_address?sort=date&filter=shotspotter-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/xx_address/releases?q=shotspotter&expanded=false)
 [![latest github release for reported_shootings dpkg](https://img.shields.io/github/v/release/geomarker-io/xx_address?sort=date&filter=reported_shootings-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/xx_address/releases?q=reported_shootings&expanded=false)
 <!-- badges: end -->
 
