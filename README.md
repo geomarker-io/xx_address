@@ -15,7 +15,7 @@ The city of Cincinnati provides publicly available data associated with events r
 
 ## Matching Street Ranges
 
-The `address_x` provided by the city is converted to possible street range lines from the census bureau using text matching for street names and comparison of street number ranges. It is possible for an `address_x` range to have more than one intersection census street range file, which are unionized to one street range geometry. 
+The `address_x` provided by the city is converted to possible street range lines from the census bureau using text matching using [`{addr}`](https://github.com/geomarker-io/addr) for street names and comparison of street number ranges. If an `address_x` range matched to more than one TIGER street range in the same zipcode, their geometries were unionized. If an `address_x` range matched to more than one TIGER street range in the different zipcodes, we chose the one closest to the jittered coordinates. 
 
 Below is a map of the total number of crime incidents and shotspotter reports for each street range approximation.
 
