@@ -1,5 +1,4 @@
 library(dplyr)
-library(addr)
 library(sf)
 
 # using the API now only goes back to 2023
@@ -18,7 +17,13 @@ reported_shootings_v0.1.0 <- dpkg::stow(
     sex,
     age,
     type
+  ) |>
+  mutate(
+    xx_address = stringr::str_remove(xx_address, pattern = " Anytown XX 00000")
   )
+
+library(addr)
+source("R/street_range_match.R")
 
 min(reported_shootings_v0.1.0$date, na.rm = TRUE)
 max(reported_shootings_v0.1.0$date, na.rm = TRUE)
@@ -74,53 +79,41 @@ out <-
   )
 
 # problematic address (I- Block of @ 9)
-out$xx_address[764] <- NA
+out$xx_address[out$xx_address == "NA @ 9"] <- NA
 
-d <-
+out$addr <- addr::as_addr(out$xx_address)
+
+# match addr_street from crimes to addr_street in tiger_streets
+unique_xx_adds <-
   out |>
-  mutate(
-    xx_address = stringr::str_remove(xx_address, pattern = " Anytown XX 00000"),
-    addr = addr::as_addr(xx_address)
-  )
+  select(xx_address, addr) |>
+  group_by(xx_address) |>
+  slice(1) |>
+  ungroup()
 
-tiger_street_ranges <- tiger_addr_feat("39061", year = "2025") |>
-  st_as_sf()
+d_matched_range <- match_range(d = unique_xx_adds)
 
-tiger_street_names <- tiger_feat_names("39061", "2025") |>
-  mutate(addr_street_string = as.character(addr_street))
+unique_xx_adds <-
+  left_join(unique_xx_adds, d_matched_range |> select(-addr), by = "xx_address")
 
-d_lineid <-
-  d |>
-  mutate(
-    addr_street_string = as.character(match_addr_street(
-      addr@street,
-      tiger_street_names$addr_street
-    ))
-  ) |>
-  left_join(tiger_street_names, by = "addr_street_string")
+d_matched <- left_join(out, unique_xx_adds |> select(-addr), by = "xx_address")
 
-d_matched_range <-
-  d_lineid |>
-  left_join(tiger_street_ranges, by = "LINEARID") |>
-  filter(FROMHN < addr@number@digits, TOHN > addr@number@digits) |>
-  group_by(date, xx_address) |>
-  summarize(
-    from = min(FROMHN),
-    to = max(TOHN),
-    s2_geography = sf::st_union(s2_geography)
-  )
+d_matched <- classify_matches(d_matched)
 
-d <- left_join(d, d_matched_range, by = c("date", "xx_address"))
+d_matched |>
+  group_by(match_type) |>
+  tally() |>
+  mutate(pct = n / sum(n) * 100)
 
+d_matched <- handle_multimatches(d_matched) |>
+  arrange(date, streetblock)
 
 d_dpkg <-
-  d |>
-  rename(geometry = s2_geography) |>
-  select(-addr) |>
+  d_matched |>
   dpkg::as_dpkg(
     name = "reported_shootings",
     title = "Reported Shootings",
-    version = "0.2.0",
+    version = "1.0.0",
     homepage = "https://github.com/geomarker-io/xx_address",
     description = paste(
       readLines(fs::path("reported_shootings", "README", ext = "md")),

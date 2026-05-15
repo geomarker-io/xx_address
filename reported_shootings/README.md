@@ -17,7 +17,10 @@ Shooting events are recorded at the victim level and contain information on:
 * `age`: the age of the vicitim
 * `type`: `FATAL` or `NONFATAL`
 * `xx_address`: the address corresponding to the middle of the block where the incident occurred
-* `geometry`: the sfc geometry for the geocoded TIGER street range
-* `from` and `to`: the minimum and maximum building numbers for the geocoded street range
+* `s2_geography`: the sfc geometry for the geocoded TIGER street range
+* `FROMHN` and `TOHN`: the minimum and maximum building numbers for the geocoded street range
+* `addr_string`: the name of the matched TIGER street
+* `ZIP`: zipcode that contains the matched TIGER street
+* `addr_street`: addr_street components (see geomarker.io/addr)
 
 
