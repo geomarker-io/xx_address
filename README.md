@@ -4,7 +4,6 @@ This repository contains these data packages (and source code used to create the
 
 <!-- badges: start -->
 [![latest github release for crime_incidents dpkg](https://img.shields.io/github/v/release/geomarker-io/xx_address?sort=date&filter=crime_incidents-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/xx_address/releases?q=crime_incidents&expanded=false)
-[![latest github release for shotspotter dpkg](https://img.shields.io/github/v/release/geomarker-io/xx_address?sort=date&filter=shotspotter-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/xx_address/releases?q=shotspotter&expanded=false)
 [![latest github release for reported_shootings dpkg](https://img.shields.io/github/v/release/geomarker-io/xx_address?sort=date&filter=reported_shootings-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/xx_address/releases?q=reported_shootings&expanded=false)
 <!-- badges: end -->
 
@@ -16,7 +15,7 @@ The city of Cincinnati provides publicly available data associated with events r
 
 ## Matching Street Ranges
 
-The `address_x` provided by the city is converted to possible street range lines from the census bureau using text matching for street names and comparison of street number ranges. It is possible for an `address_x` range to have more than one intersection census street range file, which are unionized to one street range geometry. 
+The `address_x` provided by the city is converted to possible street range lines from the census bureau using text matching using [`{addr}`](https://github.com/geomarker-io/addr) for street names and comparison of street number ranges. If an `address_x` range matched to more than one TIGER street range in the same zipcode, their geometries were unionized. If an `address_x` range matched to more than one TIGER street range in the different zipcodes, we chose the one closest to the jittered coordinates. 
 
 Below is a map of the total number of crime incidents and shotspotter reports for each street range approximation.
 
